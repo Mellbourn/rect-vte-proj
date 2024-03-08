@@ -1,12 +1,15 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 
-const config = defineConfig({
-  plugins: [react()],
-  resolve: {
-    extensions: [".customer1.ts", ".ts", ".tsx"],
-  },
-});
-console.log("config", config);
-// https://vitejs.dev/config/
-export default config;
+export default ({ mode }: { mode: string }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  const config = defineConfig({
+    plugins: [react()],
+    resolve: {
+      extensions: [`.${env.CUSTOMER}.ts`, ".ts", ".tsx"],
+    },
+  });
+  // https://vitejs.dev/config/
+  return config;
+};
